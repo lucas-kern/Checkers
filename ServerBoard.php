@@ -14,9 +14,31 @@ echo "<table border='1'>";
 for($tr=0;$tr<$rows;$tr++){
     if ($cols >= 0) {
     echo "<tr>"; 
-        echo "<td align='center'></td>";
-        for($td=0;$td<$cols;$td++){ 
-               echo "<td align='center' name = 'book' id= 6>".$arr[$tr][$td]."</td>"; 
+        for($td=0;$td<$cols;$td++){
+			$col = "";
+			if($tr%2 == 0 && $td%2 == 1){
+				$col = "B7ADAD";
+				if($tr < 3){
+					$arr[$tr][$td] = 1;
+				}
+				else if($tr > 4){
+					$arr[$tr][$td] = 2;
+				}
+			}
+			else if($tr%2 == 1 && $td%2 == 0){
+				$col = "B7ADAD";
+				if($tr < 3){
+					$arr[$tr][$td] = 1;
+				}
+				else if($tr > 4){
+					$arr[$tr][$td] = 2;
+				}
+			}
+			else{
+				$col = "F55252";
+			}
+			
+            echo "<td width= '50' height= '50' bgcolor='".$col."' align='center' name = '".$tr."' id= '".$td."'>".$arr[$tr][$td]."</td>"; 
         } 
     echo "</tr>"; 
     } 
