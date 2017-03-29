@@ -1,16 +1,22 @@
 <?php
 
+//$array = array(
+//    array(0, 1, 2),
+//    array(3, 4, 5),
+//);
 
+$arr = array_fill(0, 8, array_fill(0,8,0));
 
-function drawTable($rows,$cols){
+//echo $arr[7][7];
+
+function drawTable($rows,$cols,$arr){
 echo "<table border='1'>"; 
 for($tr=0;$tr<$rows;$tr++){
     if ($cols >= 0) {
     echo "<tr>"; 
         echo "<td align='center'></td>";
         for($td=0;$td<$cols;$td++){ 
-             $arr = $result->fetch_assoc();
-               echo "<td align='center' name = 'book' id='".$arr["BookId"]."'>".$arr["BookTitle"]."</td>"; 
+               echo "<td align='center' name = 'book' id= 6>".$arr[$tr][$td]."</td>"; 
         } 
     echo "</tr>"; 
     } 
@@ -18,5 +24,5 @@ for($tr=0;$tr<$rows;$tr++){
 
 echo "</table>";
 }
-
+drawTable(8,8,$arr);
 ?>
