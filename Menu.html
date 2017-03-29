@@ -1,0 +1,40 @@
+<!--//Have the user get a username to play and then send it to php-->
+<html>
+<head>
+</head>
+<body>
+    <h1>
+        Welcome to checkers please provide a username!
+    </h1>
+    
+    <form id="loginform">
+            <p id="username">
+                <label for="username">Username</label>
+                <input required id="user" name = "user" type="text" required/>
+            </p>
+			<br/ >
+            <input type="button" id="continue" name="continue" value="Continue"/>
+    </form>
+    
+</body>
+    <script>
+    $(document).ready(function() {
+        $('#continue').click(function() {
+            $.ajax({
+                method: "post",
+                type: "post",
+                url: 'ServerBoard.php',
+                data: {
+                    username: $("#user").val()
+                },
+                success: function(data)
+                {
+                    window.location.replace('ServerBoard.php');
+                }
+            });
+        });
+    });
+        
+    </script>
+    
+</html>

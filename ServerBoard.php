@@ -4,16 +4,17 @@
 //    array(0, 1, 2),
 //    array(3, 4, 5),
 //);
-
 $arr = array_fill(0, 8, array_fill(0,8,0));
-
 //echo $arr[7][7];
+
+
 
 function drawTable($rows,$cols,$arr){
 echo "<table border='1'>"; 
 for($tr=0;$tr<$rows;$tr++){
-    if ($cols >= 0) {
+    if ($cols > 0) {
     echo "<tr>"; 
+<<<<<<< HEAD
         for($td=0;$td<$cols;$td++){
 			$col = "";
 			if($tr%2 == 0 && $td%2 == 1){
@@ -39,6 +40,10 @@ for($tr=0;$tr<$rows;$tr++){
 			}
 			
             echo "<td width= '50' height= '50' bgcolor='".$col."' align='center' name = '".$tr."' id= '".$td."'>".$arr[$tr][$td]."</td>"; 
+=======
+        for($td=0;$td<$cols;$td++){ 
+               echo "<td align='center' name = '".$tr."' id=".$td.">".$arr[$tr][$td]."</td>"; 
+>>>>>>> 149f679e2852716648241bbe0837a7d6bbaf8e30
         } 
     echo "</tr>"; 
     } 
