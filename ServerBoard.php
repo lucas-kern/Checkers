@@ -50,7 +50,7 @@ for($tr=0;$tr<$rows;$tr++){
 			}
 			
             //echo "<td width= '50' height= '50' bgcolor='".$col."' align='center' name = '".$tr."' id= '".$td."'>".$im."</td>"; 
-            $stringTa .="<td width= '50' height= '50' bgcolor='".$col."' align='center' data-piece ='".$arr[$tr][$td]."' name = '".$tr."' id= '".$td."'>".$im."</td>";;
+            $stringTa .="<td width= '50' height= '50' bgcolor='".$col."' align='center' data-piece ='".$arr[$tr][$td]."' data-x = '".$tr."' id= '".$td."'>".$im."</td>";;
         } 
 //    echo "</tr>"; 
          $stringTa .="</tr>";
@@ -103,8 +103,8 @@ function numPlayer($arr){
     echo "".sizeof($arr);
 }
 function movePiece(&$arr,$nextx,$nexty,$startx,$starty){
-    $arr[nextx][nexty] = $arr[startx][starty];
-    $arr[startx][starty] = 0;
+    $arr[$nextx][$nexty] = $arr[$startx][$starty];
+    $arr[$startx][$starty] = 0;
 }
 
 
@@ -123,7 +123,9 @@ if($_POST["addPlayer"] == '3'){
     numPlayer($arrPl);
 }
 if($_POST["addPlayer"]=='100'){
-    movePiece($arr,$_POST["nextX"],,$_POST["nextY"],$_POST["startX"],,$_POST["startY"]);
+    getTurn($player,$arrPl,$arr);
+    movePiece($arr,intval($_POST["nextX"]),intval($_POST["nextY"]),intval($_POST["startX"]),intval($_POST["startY"]));
+    drawTable(8,8,$arr);
 }
 
 $filename = 'games.txt';
