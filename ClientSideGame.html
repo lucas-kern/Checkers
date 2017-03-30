@@ -1,0 +1,35 @@
+<html>
+<head>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"> </script>
+</head>
+<body>
+    <div>
+        <table id = "board">
+
+        </table>
+    </div>
+    
+</body>
+    <script>
+    $(document).ready(function() {
+            $.ajax({
+                method: "post",
+                type: "post",
+                url: 'ServerBoard.php',
+                data: {
+                    username: $("#user").val()
+                },
+                success: function(data)
+                {
+                    document.getElementById("board").innerHTML = data;
+                    console.log(data);
+//                    tabBody=document.getElementsByTagName("TBODY").item(0);
+//                    
+//                    tabBody.appendChild(data);         
+                }
+            });
+    });
+        
+    </script>
+    
+</html>

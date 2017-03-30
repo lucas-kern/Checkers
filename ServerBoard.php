@@ -10,10 +10,12 @@ $arr = array_fill(0, 8, array_fill(0,8,0));
 //echo $arr[7][7];
 
 function drawTable($rows,$cols,$arr){
-echo "<table border='1'>"; 
+    $stringTa ="<table border='1'>";
+//echo "<table border='1'>"; 
 for($tr=0;$tr<$rows;$tr++){
     if ($cols >= 0) {
-    echo "<tr>"; 
+    //echo "<tr>"; 
+        $stringTa .="<tr>";
         for($td=0;$td<$cols;$td++){
 			$col = "";
 			if($tr%2 == 0 && $td%2 == 1){
@@ -46,13 +48,17 @@ for($tr=0;$tr<$rows;$tr++){
 				$im = "<img src='RedPiece.png' alt='Red' />";
 			}
 			
-            echo "<td width= '50' height= '50' bgcolor='".$col."' align='center' name = '".$tr."' id= '".$td."'>".$im."</td>"; 
+            //echo "<td width= '50' height= '50' bgcolor='".$col."' align='center' name = '".$tr."' id= '".$td."'>".$im."</td>"; 
+            $stringTa .="<td width= '50' height= '50' bgcolor='".$col."' align='center' name = '".$tr."' id= '".$td."'>".$im."</td>";;
         } 
-    echo "</tr>"; 
+//    echo "</tr>"; 
+         $stringTa .="</tr>";
     } 
 }
 
-echo "</table>";
+//echo "</table>";
+     $stringTa .="</table>";
+    echo $stringTa;
 }
 drawTable(8,8,$arr);
 ?>
