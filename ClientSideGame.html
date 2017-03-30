@@ -11,7 +11,7 @@
     
 </body>
     <script>
-		
+		var pTurn = 0;
 	
     $(document).ready(function() {
             $.ajax({
@@ -19,6 +19,7 @@
                 type: "post",
                 url: 'ServerBoard.php',
                 data: {
+                    addPlayer:0,
                     username: $("#user").val()
                 },
                 success: function(data)
@@ -36,15 +37,19 @@
                 type: "post",
                 url: 'ServerBoard.php',
                 data: {
-                    pNum: $("#user").val()
+                    addPlayer: 3,
+                    user: $("#user").val()
                 },
                 success: function(data)
                 {
-                    document.getElementById("board").innerHTML = data;
-                    console.log(data);
-//                    tabBody=document.getElementsByTagName("TBODY").item(0);
-//                    
-//                    tabBody.appendChild(data);         
+                    //console.log(data);
+                  if(data === "1"){
+                      pTurn = 1;
+                  }         
+                    else if(data === "2"){
+                        pTurn =2;
+                    }
+                    console.log(pTurn);
                 }
             });
     });

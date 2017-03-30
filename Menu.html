@@ -26,10 +26,12 @@
                 type: "post",
                 url: 'ServerBoard.php',
                 data: {
-                    username: $("#user").val()
+                    addPlayer: 1,
+                    user: $("#user").val()
                 },
                 success: function(data)
                 {
+                    console.log(data);
                     window.location.replace('ClientSideGame.html');
                 }
             });

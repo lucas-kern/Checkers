@@ -3,25 +3,23 @@
 class Game { 
     public $board;
     public $turn;
+    public $names;
 } 
 
-//$array = array(
-//    array(0, 1, 2),
-//    array(3, 4, 5),
-//);
-
+$arr = array_fill(0, 8, array_fill(0,8,0));
 $player = 1;
+$arrPl = array();
 
-function getTurn(&$p){
+function getTurn(&$p,&$s,&$board){
 	$filename = "games.txt";
 	$bar;
 	if (file_exists($filename) && ($bar = file_get_contents($filename)) !== '') {
 		$g = json_decode($bar);
 		$p = $g->turn;
+        $s = $g->names;
+        $board = $g->board;
 	}	
 }
-
-$arr = array_fill(0, 8, array_fill(0,8,0));
 
 function drawTable($rows,$cols,$arr){
     $stringTa ="<table border='1'>";
@@ -93,28 +91,44 @@ function changeTurn(&$p){
 	else if ($p === 2){
 		$p = 1;
 	}
-	echo $p;	
+	//echo $p;	
 }
-
+function addPlayers($name,&$arr){
+    if(sizeof($arr) < 2){
+        array_push($arr,$name);
+        //echo sizeof($arr);
+    }
+}
+function numPlayer($arr){
+    echo "".sizeof($arr);
+}
+if($_POST["addPlayer"] == '0'){
+getTurn($player,$arrPl,$arr);
 initTable(8,8,$arr);
 drawTable(8,8,$arr);
-
-getTurn($player);
 changeTurn($player);
-
-$_SESSION["b"] = $arr;
-$_SESSION["t"] = $player;
+}
+if($_POST["addPlayer"] == '1'){
+    getTurn($player,$arrPl,$arr);
+    addPlayers($_POST["user"],$arrPl);
+}
+if($_POST["addPlayer"] == '3'){
+    getTurn($player,$arrPl,$arr);
+    numPlayer($arrPl);
+}
 
 $filename = 'games.txt';
 $g = new Game();
 if (!file_exists($filename) || ($bar = file_get_contents($filename))=== '') {
-	$g->board = $_SESSION["b"];
-	$g->turn = $_SESSION["t"];
+	$g->board = $arr;
+	$g->turn = $player;
+    $g->names = $arrPl;
 }
 else{
     $g = json_decode($bar);
-	$g->board = $_SESSION["b"];
-	$g->turn = $_SESSION["t"];
+	$g->board = $arr;
+	$g->turn = $player;
+    $g->names = $arrPl;
 }
 
 $str = json_encode($g);
