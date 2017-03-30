@@ -29,6 +29,22 @@
                 }
             });
     });
+        $('td').click(function() {
+            
+            $.ajax({
+                type: "POST",
+                method: "post",
+                url: 'ServerBoard.php',
+                data: {
+                    i: this.name,
+                    j: this.id
+                },
+                success: function(data)
+                {
+                   document.getElementById("board").innerHTML = data;
+                }
+                });	
+            });	
         
     </script>
     
