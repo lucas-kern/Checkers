@@ -11,6 +11,8 @@
     
 </body>
     <script>
+		
+	
     $(document).ready(function() {
             $.ajax({
                 method: "post",
@@ -28,9 +30,25 @@
 //                    tabBody.appendChild(data);         
                 }
             });
+		
+			$.ajax({
+                method: "post",
+                type: "post",
+                url: 'ServerBoard.php',
+                data: {
+                    pNum: $("#user").val()
+                },
+                success: function(data)
+                {
+                    document.getElementById("board").innerHTML = data;
+                    console.log(data);
+//                    tabBody=document.getElementsByTagName("TBODY").item(0);
+//                    
+//                    tabBody.appendChild(data);         
+                }
+            });
     });
-        $('td').click(function() {
-            
+        $('td').click(function() {           
             $.ajax({
                 type: "POST",
                 method: "post",

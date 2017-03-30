@@ -1,13 +1,27 @@
 <?php
 
+class Game { 
+    public $board;
+    public $turn;
+} 
+
 //$array = array(
 //    array(0, 1, 2),
 //    array(3, 4, 5),
 //);
 
-$arr = array_fill(0, 8, array_fill(0,8,0));
+$player = 1;
 
-//echo $arr[7][7];
+function getTurn(&$p){
+	$filename = "games.txt";
+	$bar;
+	if (file_exists($filename) && ($bar = file_get_contents($filename)) !== '') {
+		$g = json_decode($bar);
+		$p = $g->turn;
+	}	
+}
+
+$arr = array_fill(0, 8, array_fill(0,8,0));
 
 function drawTable($rows,$cols,$arr){
     $stringTa ="<table border='1'>";
@@ -17,24 +31,13 @@ for($tr=0;$tr<$rows;$tr++){
     //echo "<tr>"; 
         $stringTa .="<tr>";
         for($td=0;$td<$cols;$td++){
+			
 			$col = "";
 			if($tr%2 == 0 && $td%2 == 1){
 				$col = "B7ADAD";
-				if($tr < 3){
-					$arr[$tr][$td] = 1;
-				}
-				else if($tr > 4){
-					$arr[$tr][$td] = 2;
-				}
 			}
 			else if($tr%2 == 1 && $td%2 == 0){
 				$col = "B7ADAD";
-				if($tr < 3){
-					$arr[$tr][$td] = 1;
-				}
-				else if($tr > 4){
-					$arr[$tr][$td] = 2;
-				}
 			}
 			else{
 				$col = "F55252";
@@ -58,7 +61,63 @@ for($tr=0;$tr<$rows;$tr++){
 
 //echo "</table>";
      $stringTa .="</table>";
-    echo $stringTa;
+     echo $stringTa;
 }
+function initTable($rows,$cols,&$arr){
+	for($tr=0;$tr<$rows;$tr++){
+        for($td=0;$td<$cols;$td++){
+			if($tr%2 == 0 && $td%2 == 1){
+				if($tr < 3){
+					$arr[$tr][$td] = 1;
+				}
+				else if($tr > 4){
+					$arr[$tr][$td] = 2;
+				}
+			}
+			else if($tr%2 == 1 && $td%2 == 0){
+				if($tr < 3){
+					$arr[$tr][$td] = 1;
+				}
+				else if($tr > 4){
+					$arr[$tr][$td] = 2;
+				}
+			}
+		}
+	}
+}
+
+function changeTurn(&$p){
+	if ($p === 1){
+		$p = 2;
+	}
+	else if ($p === 2){
+		$p = 1;
+	}
+	echo $p;	
+}
+
+initTable(8,8,$arr);
 drawTable(8,8,$arr);
+
+getTurn($player);
+changeTurn($player);
+
+$_SESSION["b"] = $arr;
+$_SESSION["t"] = $player;
+
+$filename = 'games.txt';
+$g = new Game();
+if (!file_exists($filename) || ($bar = file_get_contents($filename))=== '') {
+	$g->board = $_SESSION["b"];
+	$g->turn = $_SESSION["t"];
+}
+else{
+    $g = json_decode($bar);
+	$g->board = $_SESSION["b"];
+	$g->turn = $_SESSION["t"];
+}
+
+$str = json_encode($g);
+file_put_contents($filename, $str);
+
 ?>
