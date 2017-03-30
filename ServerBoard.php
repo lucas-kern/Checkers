@@ -50,7 +50,7 @@ for($tr=0;$tr<$rows;$tr++){
 			}
 			
             //echo "<td width= '50' height= '50' bgcolor='".$col."' align='center' name = '".$tr."' id= '".$td."'>".$im."</td>"; 
-            $stringTa .="<td width= '50' height= '50' bgcolor='".$col."' align='center' name = '".$tr."' id= '".$td."'>".$im."</td>";;
+            $stringTa .="<td width= '50' height= '50' bgcolor='".$col."' align='center' data-piece ='".$arr[$tr][$td]."' name = '".$tr."' id= '".$td."'>".$im."</td>";;
         } 
 //    echo "</tr>"; 
          $stringTa .="</tr>";
