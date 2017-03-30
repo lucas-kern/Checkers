@@ -102,6 +102,12 @@ function addPlayers($name,&$arr){
 function numPlayer($arr){
     echo "".sizeof($arr);
 }
+function movePiece(&$arr,$nextx,$nexty,$startx,$starty){
+    $arr[nextx][nexty] = $arr[startx][starty];
+    $arr[startx][starty] = 0;
+}
+
+
 if($_POST["addPlayer"] == '0'){
 getTurn($player,$arrPl,$arr);
 initTable(8,8,$arr);
@@ -115,6 +121,9 @@ if($_POST["addPlayer"] == '1'){
 if($_POST["addPlayer"] == '3'){
     getTurn($player,$arrPl,$arr);
     numPlayer($arrPl);
+}
+if($_POST["addPlayer"]=='100'){
+    movePiece($arr,$_POST["nextX"],,$_POST["nextY"],$_POST["startX"],,$_POST["startY"]);
 }
 
 $filename = 'games.txt';
