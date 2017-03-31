@@ -105,30 +105,33 @@ function addPlayers($name,&$arr){
 function numPlayer($arr){
     echo "".sizeof($arr);
 }
-function movePiece(&$arr,$nextx,$nexty,$startx,$starty){
-    $arr[$nextx][$nexty] = $arr[$startx][$starty];
-    $arr[$startx][$starty] = 0;
+function movePiece(&$arr,$nextx,$nexty,$startx,$starty,$flag){
+    if($flag ==0){
+        $arr[$nextx][$nexty] = $arr[$startx][$starty];
+        $arr[$startx][$starty] = 0;
+    }
+    else{
+        $arr[$nextx][$nexty] = $arr[$startx][$starty];
+        $arr[$startx][$starty] = 0;
+        $arr[intval($_POST["delX"])][intval($_POST["delY"])] = 0;
+    }
 }
 
-
-if($_POST["addPlayer"] == '0'){
     getTurn($player,$arrPl,$arr);
+if($_POST["addPlayer"] == '0'){
     $arr = array_fill(0, 8, array_fill(0,8,0));
     initTable(8,8,$arr);
     drawTable(8,8,$arr);
     changeTurn($player);
 }
 if($_POST["addPlayer"] == '1'){
-    getTurn($player,$arrPl,$arr);
     addPlayers($_POST["user"],$arrPl);
 }
 if($_POST["addPlayer"] == '3'){
-    getTurn($player,$arrPl,$arr);
     numPlayer($arrPl);
 }
 if($_POST["addPlayer"]=='100'){
-    getTurn($player,$arrPl,$arr);
-    movePiece($arr,intval($_POST["nextX"]),intval($_POST["nextY"]),intval($_POST["startX"]),intval($_POST["startY"]));
+    movePiece($arr,intval($_POST["nextX"]),intval($_POST["nextY"]),intval($_POST["startX"]),intval($_POST["startY"]),intval($_POST["flag"                                                                                                                                   ]));
     drawTable(8,8,$arr);
 }
 
