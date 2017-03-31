@@ -37,17 +37,17 @@
                     $('#board td').click(function() {   
 						cow = this;
                         if(pTurn == this.getAttribute("data-piece")){
-                        $.ajax({
-                            type: "POST",
-                            method: "post",
-                            url: 'ServerBoard.php',
-                            data: {
-                                addPlayer:100,
-                                startX: cow.getAttribute("data-x"),
-                                startY: cow.id
-                            },
-                            success: function(data)
-                            {
+//                        $.ajax({
+//                            type: "POST",
+//                            method: "post",
+//                            url: 'ServerBoard.php',
+//                            data: {
+//                                addPlayer:101,
+//                                startX: cow.getAttribute("data-x"),
+//                                startY: cow.id
+//                            },
+//                            success: function(data)
+//                            {
                             //   document.getElementById("board").innerHTML = data;
 								var x = document.getElementsByTagName("TD");
 								var i;
@@ -104,15 +104,16 @@
 											method: "post",
 											url: 'ServerBoard.php',
 											data: {
-												addPlayer:101,
-												nextX: this.getAttribute("data-x"),
-												nextY: this.id
-											},
+												addPlayer:100,
+                                                startX:old.getAttribute("data-x"),
+                                                startY: old.id,
+												nextX: place.getAttribute("data-x"),
+												nextY: place.id ,											},
 											success: function(data)
 											{
 												//SEND OLD AND NEW
-												place.style.backgroundColor = "black";
-												
+												//place.style.backgroundColor = "black";
+												document.getElementById("board").innerHTML = data;
 											}
 							   
 										});	
@@ -122,8 +123,8 @@
 		
 								
 							   
-                            }
-                            });	
+                            //}
+//                            });	
                         };
                     });
                     console.log(data);
