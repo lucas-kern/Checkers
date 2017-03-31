@@ -112,11 +112,11 @@ function numPlayer($arr){
     echo $_SESSION["number"];
 }
 function movePiece(&$arr,$nextx,$nexty,$startx,$starty,$flag){
-    if($flag ==0){
+    if($flag ==0 && $arr[$startx][$starty] != 0){
         $arr[$nextx][$nexty] = $arr[$startx][$starty];
         $arr[$startx][$starty] = 0;
     }
-    else{
+    else if($arr[$startx][$starty] != 0){
         $arr[$nextx][$nexty] = $arr[$startx][$starty];
         $arr[$startx][$starty] = 0;
         $arr[intval($_POST["delX"])][intval($_POST["delY"])] = 0;
@@ -136,9 +136,16 @@ if($_POST["addPlayer"] == '1'){
 if($_POST["addPlayer"] == '3'){
     numPlayer($arrPl);
 }
+if($_POST["addPlayer"] == '5'){
+	$_SESSION["check"] = 0;
+	unlink('games.txt');
+	session_destroy();
+	return;
+}
+
 if($_POST["addPlayer"]=='100'){
-    movePiece($arr,intval($_POST["nextX"]),intval($_POST["nextY"]),intval($_POST["startX"]),intval($_POST["startY"]),intval($_POST["flag"           ]));
-    drawTable(8,8,$arr);
+   movePiece($arr,intval($_POST["nextX"]),intval($_POST["nextY"]),intval($_POST["startX"]),intval($_POST["startY"]),intval($_POST["flag"]));
+    drawTable(8,8,$arr);	
 }
 if($_POST["addPlayer"] == '0' && $_SESSION["check"] == 1){
     drawTable(8,8,$arr);
