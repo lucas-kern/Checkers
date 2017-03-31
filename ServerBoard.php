@@ -110,6 +110,7 @@ function movePiece(&$arr,$nextx,$nexty,$startx,$starty){
 
 if($_POST["addPlayer"] == '0'){
 getTurn($player,$arrPl,$arr);
+$arr = array_fill(0, 8, array_fill(0,8,0));
 initTable(8,8,$arr);
 drawTable(8,8,$arr);
 changeTurn($player);
