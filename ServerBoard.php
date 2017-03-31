@@ -23,6 +23,7 @@ function getTurn(&$p,&$s,&$board){
 
 function drawTable($rows,$cols,$arr){
     $stringTa ="<table border='1'>";
+	$c = 0;
 //echo "<table border='1'>"; 
 for($tr=0;$tr<$rows;$tr++){
     if ($cols >= 0) {
@@ -50,7 +51,9 @@ for($tr=0;$tr<$rows;$tr++){
 			}
 			
             //echo "<td width= '50' height= '50' bgcolor='".$col."' align='center' name = '".$tr."' id= '".$td."'>".$im."</td>"; 
-            $stringTa .="<td width= '50' height= '50' bgcolor='".$col."' align='center' data-piece ='".$arr[$tr][$td]."' data-x = '".$tr."' id= '".$td."'>".$im."</td>";;
+            $stringTa .="<td width= '50' height= '50' bgcolor='".$col."' align='center' data-piece ='".$arr[$tr][$td]."' data-x = '".$tr."' name ='".$c."' id= '".$td."'>".$im."</td>";
+			
+			++$c;
         } 
 //    echo "</tr>"; 
          $stringTa .="</tr>";
