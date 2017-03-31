@@ -1,11 +1,14 @@
 <?php
+session_start();
 
 class Game { 
     public $board;
     public $turn;
     public $names;
 } 
-
+if(!isset($_SESSION["check"])){
+    $_SESSION["check"] = 0;
+}
 $arr = array_fill(0, 8, array_fill(0,8,0));
 $player = 1;
 $arrPl = array();
@@ -103,7 +106,10 @@ function addPlayers($name,&$arr){
     }
 }
 function numPlayer($arr){
-    echo "".sizeof($arr);
+    if(isset($_SESSION["number"])){
+        $_SESSION["number"] = "".sizeof($arr);
+    }
+    echo $_SESSION["number"];
 }
 function movePiece(&$arr,$nextx,$nexty,$startx,$starty,$flag){
     if($flag ==0){
@@ -118,10 +124,10 @@ function movePiece(&$arr,$nextx,$nexty,$startx,$starty,$flag){
 }
 
     getTurn($player,$arrPl,$arr);
-if($_POST["addPlayer"] == '0'){
+if($_POST["addPlayer"] == '0' && $_SESSION["check"] == 0){
+    $_SESSION["check"] = 1;
     $arr = array_fill(0, 8, array_fill(0,8,0));
     initTable(8,8,$arr);
-    drawTable(8,8,$arr);
     changeTurn($player);
 }
 if($_POST["addPlayer"] == '1'){
@@ -134,7 +140,9 @@ if($_POST["addPlayer"]=='100'){
     movePiece($arr,intval($_POST["nextX"]),intval($_POST["nextY"]),intval($_POST["startX"]),intval($_POST["startY"]),intval($_POST["flag"                                                                                                                                   ]));
     drawTable(8,8,$arr);
 }
-
+if($_POST["addPlayer"] == '0' && $_SESSION["check"] == 1){
+   drawTable(8,8,$arr);
+}
 $filename = 'games.txt';
 $g = new Game();
 if (!file_exists($filename) || ($bar = file_get_contents($filename))=== '') {
@@ -151,5 +159,5 @@ else{
 
 $str = json_encode($g);
 file_put_contents($filename, $str);
-
+//session_destroy();
 ?>
