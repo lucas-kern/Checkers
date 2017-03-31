@@ -106,7 +106,7 @@ function addPlayers($name,&$arr){
     }
 }
 function numPlayer($arr){
-    if(isset($_SESSION["number"])){
+    if(!isset($_SESSION["number"])){
         $_SESSION["number"] = "".sizeof($arr);
     }
     echo $_SESSION["number"];
@@ -137,11 +137,12 @@ if($_POST["addPlayer"] == '3'){
     numPlayer($arrPl);
 }
 if($_POST["addPlayer"]=='100'){
-    movePiece($arr,intval($_POST["nextX"]),intval($_POST["nextY"]),intval($_POST["startX"]),intval($_POST["startY"]),intval($_POST["flag"                                                                                                                                   ]));
+    movePiece($arr,intval($_POST["nextX"]),intval($_POST["nextY"]),intval($_POST["startX"]),intval($_POST["startY"]),intval($_POST["flag"           ]));
     drawTable(8,8,$arr);
 }
 if($_POST["addPlayer"] == '0' && $_SESSION["check"] == 1){
-   drawTable(8,8,$arr);
+    drawTable(8,8,$arr);
+    changeTurn($player);
 }
 $filename = 'games.txt';
 $g = new Game();
