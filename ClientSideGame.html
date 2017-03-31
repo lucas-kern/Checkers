@@ -24,110 +24,9 @@
                 },
                 success: function(data)
                 {
-					var enemy = 0;
-					
-					if(pTurn == 1){
-						enemy = 2;
-					}
-					else if(pTurn == 2){
-						enemy = 1;
-					}
-					
                     document.getElementById("board").innerHTML = data;
-                    $('#board td').click(function() {   
-						cow = this;
-                        if(pTurn == this.getAttribute("data-piece")){
-//                        $.ajax({
-//                            type: "POST",
-//                            method: "post",
-//                            url: 'ServerBoard.php',
-//                            data: {
-//                                addPlayer:101,
-//                                startX: cow.getAttribute("data-x"),
-//                                startY: cow.id
-//                            },
-//                            success: function(data)
-//                            {
-                            //   document.getElementById("board").innerHTML = data;
-								var x = document.getElementsByTagName("TD");
-								var i;
-								for (i = 0; i < x.length; i++) {
-									if(x[i].style.backgroundColor == "yellow"){
-										x[i].style.backgroundColor = "#B7ADAD";
-									}
-								}
-								$(cow).css("background","yellow");
-								
-								
-								$('#board td').click(function() {  
-									flagA = 0;
-									flagB = 0;
-									flagC = 0;
-									place = this;
-									old = this;
-									
-									var x = document.getElementsByTagName("TD");
-									var i;
-									
-									for (i = 0; i < x.length; i++) {
-										if(x[i].style.backgroundColor == "yellow"){
-											old = x[i];
-										}
-									}
-									
-									console.log("OLD X,Y:  " , old.id , old.getAttribute("data-x"));
-									console.log("NEW X,Y:  " , place.id, place.getAttribute("data-x"));
-									
-									if(this.getAttribute("data-piece") != 1 && 				this.getAttribute("data-piece") != 2){
-										flagA = 1;
-									}
-									
-									if(pTurn == 2){
-										if((parseInt(old.id) == parseInt(place.id) + 1 || parseInt(old.id) == parseInt(place.id) - 1) && parseInt(old.getAttribute("data-x")) == parseInt(place.getAttribute("data-x")) +1){
-											flagB = 1;
-										}
-										//else if(place.id == parseInt(old.id) - 2 && place.getAttribute("data-x") == //parseInt(old.getAttribute("data-x")) + 2 && /*FId lower left corner*/){
-											
-										//}
-									}
-									else if(pTurn == 1){
-										if((parseInt(old.id) == parseInt(place.id) + 1 || parseInt(old.id) == parseInt(place.id) - 1) && parseInt(old.getAttribute("data-x")) == parseInt(place.getAttribute("data-x"))  - 1){
-											flagB = 1;
-										}
-									}
-									
-									
-									
-									if(flagA == 1 && flagB == 1){
-										$.ajax({
-											type: "POST",
-											method: "post",
-											url: 'ServerBoard.php',
-											data: {
-												addPlayer:100,
-                                                startX:old.getAttribute("data-x"),
-                                                startY: old.id,
-												nextX: place.getAttribute("data-x"),
-												nextY: place.id ,											},
-											success: function(data)
-											{
-												//SEND OLD AND NEW
-												//place.style.backgroundColor = "black";
-												document.getElementById("board").innerHTML = data;
-											}
-							   
-										});	
-									};
-								});
-								
-		
-								
-							   
-                            //}
-//                            });	
-                        };
-                    });
                     console.log(data);
+                    setTable();
 //                    tabBody=document.getElementsByTagName("TBODY").item(0);
 //                    
 //                    tabBody.appendChild(data);         
@@ -156,47 +55,98 @@
                 }
             });
     };
+        function setTable(){
+                $('#board td').click(function() {   
+                            cow = this;
+                            if(pTurn == this.getAttribute("data-piece")){
+                                    var x = document.getElementsByTagName("TD");
+                                    var i;
+                                    for (i = 0; i < x.length; i++) {
+                                        if(x[i].style.backgroundColor == "yellow"){
+                                            x[i].style.backgroundColor = "#B7ADAD";
+                                        }
+                                    }
+                                    $(cow).css("background","yellow");
+                                    assignClicks();
+                            };
+                    });
+        }
+        function assignClicks(){
+            $('#board td').click(function() {  
+                flagA = 0;
+                flagB = 0;
+                flagC = 0;
+                place = this;
+                old = this;
+				var enemy = 0;					
+				var x = document.getElementsByTagName("TD");
+				var i;
+									
+                if(pTurn == 1){
+                    enemy = 2;
+				 }
+                else if(pTurn == 2){
+                    enemy = 1;
+                }
+                
+                for (i = 0; i < x.length; i++) {
+                    if(x[i].style.backgroundColor == "yellow"){
+                        old = x[i];
+                    }
+                }
+									
+                console.log("OLD X,Y:  " , old.id , old.getAttribute("data-x"));
+                console.log("NEW X,Y:  " , place.id, place.getAttribute("data-x"));
+					   				
+                if(this.getAttribute("data-piece") != 1 && 				this.getAttribute("data-piece") != 2){
+                    flagA = 1;
+                }
+                
+                oUp = parseInt(old.getAttribute("data-x")) - 1;
+                oDown = parseInt(old.getAttribute("data-x")) + 1;
+                oLeft = parseInt(old.id) - 1;
+                oRight = parseInt(old.id) + 1;
+                console.log(oRight);
+                
+                var bLeft = $('td[id=oDown][data-x=oLeft]');
+				    					
+                if(pTurn == 2){
+                    if((parseInt(old.id) == parseInt(place.id) + 1 || parseInt(old.id) == parseInt(place.id) - 1) && parseInt(old.getAttribute("data-x")) == parseInt(place.getAttribute("data-x")) +1){
+                        flagB = 1;
+                    }
+                    //else if(place.id == parseInt(old.id) - 2 && place.getAttribute("data-x") == //parseInt(old.getAttribute("data-x")) + 2 && /*FId lower left corner*/){
+											
+                    //}
+                }
+                else if(pTurn == 1){
+                    if((parseInt(old.id) == parseInt(place.id) + 1 || parseInt(old.id) == parseInt(place.id) - 1) && parseInt(old.getAttribute("data-x")) == parseInt(place.getAttribute("data-x"))  - 1){
+                        flagB = 1;
+                    }
+                }		
+									
+                if(flagA == 1 && flagB == 1){
+                    $.ajax({
+                        type: "POST",
+                        method: "post",
+                        url: 'ServerBoard.php',
+                        data: {
+                            addPlayer:100,
+                            startX:old.getAttribute("data-x"),
+                            startY: old.id,
+                            nextX: place.getAttribute("data-x"),
+                            nextY: place.id ,											},
+                        success: function(data)
+                        {
+                            //SEND OLD AND NEW
+                            //place.style.backgroundColor = "black";
+                            document.getElementById("board").innerHTML = data;
+                            setTable();
+                        }	   
+                    });	
+                };
+            });					
+        }
     $(document).ready(function(){
-		
-//		$(td).click(function() {
-//            cow = this;
-//            $.ajax({
-//                type: "POST",
-//                method: "post",
-//                url: 'Student.php',
-//                data: {
-//                    startX: this.id,
-//					startY: this.name
-//                },
-//                success: function(data)
-//                {
-//                    //console.log(data);
-//                    //if(data === "1"){
-//                        $(cow).css("background","yellow");
-//                    //}
-//                   // else{
-//                   //     $(cow).css("background","white");
-//                  //  }
-//                }
-//                });	
-//            });	
-		
-//        $('#board td').click(function() {   
-//            console.log("this.data-piece");
-//            $.ajax({
-//                type: "POST",
-//                method: "post",
-//                url: 'ServerBoard.php',
-//                data: {
-//                    i: this.name,
-//                    j: this.id
-//                },
-//                success: function(data)
-//                {
-//                   document.getElementById("board").innerHTML = data;
-//                }
-//                });	
-//            });
   	});
         
     </script>
