@@ -15,9 +15,10 @@
 </body>
     <script>
 		var pTurn = '3';
-        var turn = '0';
-	
+        var turn = '66';
+	   var update = 0;
    window.onload = () => {
+       getTurn();
             $.ajax({
                 method: "post",
                 type: "post",
@@ -72,7 +73,6 @@
             $.ajax({
                 method: "post",
                 type: "post",
-                async:false,
                 url: 'ServerBoard.php',
                 data: {
                     addPlayer: 66
@@ -82,7 +82,7 @@
                     turn = data;
                     console.log(turn);
                     console.log(pTurn);
-                    if(turn != pTurn){
+                    if(turn != pTurn || (turn == pTurn && update == 0)){
                        $.ajax({
                             method: "post",
                             type: "post",
@@ -95,7 +95,12 @@
                             {
                                 document.getElementById("board").innerHTML = data;
                                 console.log(data);
-                                setTable();        
+                                setTable();       
+                                if(turn == pTurn){
+                                    update = 1;
+                                }else{
+                                    update = 0;
+                                }
                             }
                         });	   
                     }
@@ -103,7 +108,7 @@
             });
        }
        setInterval(getPlayer,1000);
-       setInterval(getTurn,3000);
+       setInterval(getTurn,1000);
    }
         function setTable(){
                 $('#board td').click(function() {   
@@ -148,9 +153,9 @@
 									
                 console.log("OLD X,Y:  " , old.id , old.getAttribute("data-x"));
                 console.log("NEW X,Y:  " , place.id, place.getAttribute("data-x"));
-				console.log("HELLOO " , old.getAttribute("name"));
+				console.log("HELLOO " , pTurn , turn);
 					   				
-                if(this.getAttribute("data-piece") != 1 && 				this.getAttribute("data-piece") != 2){
+                if(this.getAttribute("data-piece") == 0 && pTurn == turn){
                     flagA = 1;
                 }
                 

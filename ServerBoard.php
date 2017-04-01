@@ -90,10 +90,10 @@ function initTable($rows,$cols,&$arr){
 }
 
 function changeTurn(&$p){
-	if ($p === 1){
+	if ($p == 1){
 		$p = 2;
 	}
-	else if ($p === 2){
+	else if ($p == 2){
 		$p = 1;
 	}
 	//echo $p;	
@@ -121,7 +121,6 @@ function movePiece(&$arr,$nextx,$nexty,$startx,$starty,$flag){
         $arr[intval($_POST["delX"])][intval($_POST["delY"])] = 0;
     }
 }
-
     getGame($player,$arrPl,$arr);
 if($_POST["addPlayer"] == '0' && $_SESSION["check"] === 0){
     $_SESSION["check"] = 1;
@@ -147,11 +146,12 @@ if($_POST["addPlayer"] == '66'){
 
 if($_POST["addPlayer"]=='100'){
  movePiece($arr,intval($_POST["nextX"]),intval($_POST["nextY"]),intval($_POST["startX"]),intval($_POST["startY"]),intval($_POST["flag"]));
-    drawTable(8,8,$arr);	
+    drawTable(8,8,$arr);
+    changeTurn($player);
 }
 if($_POST["addPlayer"] == '0' && $_SESSION["check"] == 1){
     drawTable(8,8,$arr);
-    changeTurn($player);
+    //changeTurn($player);
 }
 $filename = 'games.txt';
 $g = new Game();
