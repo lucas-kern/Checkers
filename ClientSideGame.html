@@ -173,7 +173,7 @@
                 var delB = old;
 				
 				    					
-                if(pTurn == 2){
+                if(pTurn == 2 || parseInt(old.getAttribute("data-king")) == 1){
                     if((parseInt(old.id) == parseInt(place.id) + 1 || parseInt(old.id) == parseInt(place.id) - 1) && parseInt(old.getAttribute("data-x")) == parseInt(place.getAttribute("data-x")) +1){
                         flagB = 1;
                     }
@@ -187,7 +187,7 @@
 						flagC = 1;			
                     }
                 }
-                else if(pTurn == 1){
+                else if(pTurn == 1 || parseInt(old.getAttribute("data-king")) == 1){
                     if((parseInt(old.id) == parseInt(place.id) + 1 || parseInt(old.id) == parseInt(place.id) - 1) && parseInt(old.getAttribute("data-x")) == parseInt(place.getAttribute("data-x"))  - 1){
                         flagB = 1;
                     }
@@ -201,32 +201,32 @@
 						flagC = 1;			
                     }
                 }
-                else if(parseInt(old.getAttribute("data-king")) == 1){
-                        if((parseInt(old.id) == parseInt(place.id) + 1 || parseInt(old.id) == parseInt(place.id) - 1) && parseInt(old.getAttribute("data-x")) == parseInt(place.getAttribute("data-x")) +1){
-                            flagB = 1;
-                        }
-
-                        if(place.id == parseInt(old.id) - 2 && place.getAttribute("data-x") == parseInt(old.getAttribute("data-x")) - 2 && rLeft[0].getAttribute("data-piece") == enemy){
-                            delB = rLeft[0];
-                            flagC = 1;			
-                        }
-                        else if(place.id == parseInt(old.id) + 2 && place.getAttribute("data-x") == parseInt(old.getAttribute("data-x")) - 2 && rRight[0].getAttribute("data-piece") == enemy){
-                            delB = rRight[0];
-                            flagC = 1;			
-                        }
-                        if((parseInt(old.id) == parseInt(place.id) + 1 || parseInt(old.id) == parseInt(place.id) - 1) &&        parseInt(old.getAttribute("data-x")) == parseInt(place.getAttribute("data-x"))  - 1){
-                            flagB = 1;
-                        }
-
-                        if(place.id == parseInt(old.id) - 2 && place.getAttribute("data-x") == parseInt(old.getAttribute("data-x")) + 2 && bLeft[0].getAttribute("data-piece") == enemy){
-                            delB = bLeft[0];
-                            flagC = 1;			
-                        }
-                        else if(place.id == parseInt(old.id) + 2 && place.getAttribute("data-x") == parseInt(old.getAttribute("data-x")) + 2 && bRight[0].getAttribute("data-piece") == enemy){
-                            delB = bRight[0];
-                            flagC = 1;			
-                        }
-                    }
+//                else if(parseInt(old.getAttribute("data-king")) == 1){
+//                        if((parseInt(old.id) == parseInt(place.id) + 1 || parseInt(old.id) == parseInt(place.id) - 1) && parseInt(old.getAttribute("data-x")) == parseInt(place.getAttribute("data-x")) +1){
+//                            flagB = 1;
+//                        }
+//
+//                        if(place.id == parseInt(old.id) - 2 && place.getAttribute("data-x") == parseInt(old.getAttribute("data-x")) - 2 && rLeft[0].getAttribute("data-piece") == enemy){
+//                            delB = rLeft[0];
+//                            flagC = 1;			
+//                        }
+//                        else if(place.id == parseInt(old.id) + 2 && place.getAttribute("data-x") == parseInt(old.getAttribute("data-x")) - 2 && rRight[0].getAttribute("data-piece") == enemy){
+//                            delB = rRight[0];
+//                            flagC = 1;			
+//                        }
+//                        if((parseInt(old.id) == parseInt(place.id) + 1 || parseInt(old.id) == parseInt(place.id) - 1) &&        parseInt(old.getAttribute("data-x")) == parseInt(place.getAttribute("data-x"))  - 1){
+//                            flagB = 1;
+//                        }
+//
+//                        if(place.id == parseInt(old.id) - 2 && place.getAttribute("data-x") == parseInt(old.getAttribute("data-x")) + 2 && bLeft[0].getAttribute("data-piece") == enemy){
+//                            delB = bLeft[0];
+//                            flagC = 1;			
+//                        }
+//                        else if(place.id == parseInt(old.id) + 2 && place.getAttribute("data-x") == parseInt(old.getAttribute("data-x")) + 2 && bRight[0].getAttribute("data-piece") == enemy){
+//                            delB = bRight[0];
+//                            flagC = 1;			
+//                        }
+//                    }
 									
                 if(flagA == 1 && (flagB == 1 ||  flagC == 1)){
 					console.log("HIIIIIIIIIIIIIIIIII");
