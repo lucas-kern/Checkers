@@ -15,6 +15,7 @@
 </body>
     <script>
 		var pTurn = '3';
+        var turn = '0';
 	
    window.onload = () => {
             $.ajax({
@@ -29,10 +30,7 @@
                 {
                     document.getElementById("board").innerHTML = data;
                     console.log(data);
-                    setTable();
-//                    tabBody=document.getElementsByTagName("TBODY").item(0);
-//                    
-//                    tabBody.appendChild(data);         
+                    setTable();        
                 }
             });
 	   
@@ -54,23 +52,59 @@
 				});
 	   
 	   		});
-						  
-			$.ajax({
+            function getPlayer(){
+                $.ajax({
+                    method: "post",
+                    type: "post",
+                    url: 'ServerBoard.php',
+                    data: {
+                        addPlayer: 3,
+                        user: $("#user").val()
+                    },
+                    success: function(data)
+                    {
+                        pTurn = data;
+                        console.log(pTurn);
+                    }
+                });
+            }
+       function getTurn(){
+            $.ajax({
                 method: "post",
                 type: "post",
+                async:false,
                 url: 'ServerBoard.php',
                 data: {
-                    addPlayer: 3,
-                    user: $("#user").val()
+                    addPlayer: 66
                 },
                 success: function(data)
                 {
-                    pTurn = data;
+                    turn = data;
+                    console.log(turn);
                     console.log(pTurn);
+                    if(turn != pTurn){
+                       $.ajax({
+                            method: "post",
+                            type: "post",
+                            url: 'ServerBoard.php',
+                            data: {
+                                addPlayer:0,
+                                username: $("#user").val()
+                            },
+                            success: function(data)
+                            {
+                                document.getElementById("board").innerHTML = data;
+                                console.log(data);
+                                setTable();        
+                            }
+                        });	   
+                    }
                 }
             });
+       }
+       setInterval(getPlayer,1000);
+       setInterval(getTurn,3000);
    }
-		
         function setTable(){
                 $('#board td').click(function() {   
                             cow = this;
@@ -161,7 +195,7 @@
                     }
                 }		
 									
-                if((flagA == 1 && flagB == 1) || (flagA == 1 && flagC == 1)){
+                if(flagA == 1 && (flagB == 1 ||  flagC == 1)){
 					console.log("HIIIIIIIIIIIIIIIIII");
                     $.ajax({
                         type: "POST",

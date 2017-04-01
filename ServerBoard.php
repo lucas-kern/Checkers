@@ -1,6 +1,5 @@
 <?php
 session_start();
-
 class Game { 
     public $board;
     public $turn;
@@ -13,7 +12,7 @@ $arr = array_fill(0, 8, array_fill(0,8,0));
 $player = 1;
 $arrPl = array();
 
-function getTurn(&$p,&$s,&$board){
+function getGame(&$p,&$s,&$board){
 	$filename = "games.txt";
 	$bar;
 	if (file_exists($filename) && ($bar = file_get_contents($filename)) !== '') {
@@ -123,8 +122,8 @@ function movePiece(&$arr,$nextx,$nexty,$startx,$starty,$flag){
     }
 }
 
-    getTurn($player,$arrPl,$arr);
-if($_POST["addPlayer"] == '0' && $_SESSION["check"] == 0){
+    getGame($player,$arrPl,$arr);
+if($_POST["addPlayer"] == '0' && $_SESSION["check"] === 0){
     $_SESSION["check"] = 1;
     $arr = array_fill(0, 8, array_fill(0,8,0));
     initTable(8,8,$arr);
@@ -142,9 +141,12 @@ if($_POST["addPlayer"] == '5'){
 	session_destroy();
 	return;
 }
+if($_POST["addPlayer"] == '66'){
+    echo $player;
+}
 
 if($_POST["addPlayer"]=='100'){
-   movePiece($arr,intval($_POST["nextX"]),intval($_POST["nextY"]),intval($_POST["startX"]),intval($_POST["startY"]),intval($_POST["flag"]));
+ movePiece($arr,intval($_POST["nextX"]),intval($_POST["nextY"]),intval($_POST["startX"]),intval($_POST["startY"]),intval($_POST["flag"]));
     drawTable(8,8,$arr);	
 }
 if($_POST["addPlayer"] == '0' && $_SESSION["check"] == 1){
