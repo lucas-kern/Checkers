@@ -153,7 +153,7 @@
 									
                 console.log("OLD X,Y:  " , old.id , old.getAttribute("data-x"));
                 console.log("NEW X,Y:  " , place.id, place.getAttribute("data-x"));
-				console.log("HELLOO " , pTurn , turn);
+				console.log("HELLOO " , parseInt(old.getAttribute("data-king")));
 					   				
                 if(this.getAttribute("data-piece") == 0 && pTurn == turn){
                     flagA = 1;
@@ -185,7 +185,7 @@
 						flagC = 1;			
                     }
                 }
-                else if(pTurn == 1 || parseInt(old.getAttribute("data-king")) == 1){
+                if(pTurn == 1 || parseInt(old.getAttribute("data-king")) == 1){
                     if((parseInt(old.id) == parseInt(place.id) + 1 || parseInt(old.id) == parseInt(place.id) - 1) && parseInt(old.getAttribute("data-x")) == parseInt(place.getAttribute("data-x"))  - 1){
                         flagB = 1;
                     }
