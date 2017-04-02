@@ -5,12 +5,42 @@ class Game {
     public $turn;
     public $names;
 } 
+
 if(!isset($_SESSION["check"])){
     $_SESSION["check"] = 0;
 }
 $arr = array_fill(0, 8, array_fill(0,8,0));
 $player = 1;
 $arrPl = array();
+
+function endGame(){
+	$pa;
+	$sa;
+	$boarda;
+	getGame($pa,$sa,$boarda);
+	
+	$bCount = 0;
+	$rCount = 0;
+	for($x = 0; $x < 8; ++$x){
+		for($y = 0; $y < 8; ++$y){
+			if($boarda[$x][$y] == 1){
+				$bCount += 1;
+			}
+			else if($boarda[$x][$y] == 2){
+				$rCount += 1;
+			}
+		}
+	}
+	
+	if($bCount == 0){
+		return 2;
+		
+	}
+	else if($rCount == 0){
+		return 1;
+	}
+	
+}
 
 function getGame(&$p,&$s,&$board){
 	$filename = "games.txt";
@@ -23,8 +53,49 @@ function getGame(&$p,&$s,&$board){
 	}	
 }
 
+function getPlayers(&$a,&$b, &$c, &$text){
+	$filename = "games.txt";
+	$bar;
+	if (file_exists($filename) && ($bar = file_get_contents($filename)) !== '') {
+		$g = json_decode($bar);
+		if(sizeof($g->names) == 2){
+			$a = $g->names[0];
+        	$b = $g->names[1];	
+			$c = $g->turn;
+			$text = ' vs. ';
+		}
+		else{
+			$text = ' Waiting for Other Player ';
+		}
+	}	
+}
+
 function drawTable($rows,$cols,$arr){
-    $stringTa ="<table border='1'>";
+	$pRed = '';
+	$pBlack = '';
+	$xTurn = '';
+	$t = '';
+	
+	getPlayers($pBlack, $pRed, $xTurn, $t);
+	
+	
+    $stringTa ="<div><p><strong style='color:black;'>".$pBlack."</strong>".$t."<strong style='color:red;'>".$pRed."</strong></p></div>";
+	if(endGame() == 0){
+		if($xTurn == 1){
+			$stringTa .= "<div><p><strong style='color:black;'>It's Black's Turn</strong></p></div>";
+		}
+		else if($xTurn == 2){
+			$stringTa .= "<div><p><strong style='color:red;'>It's Red's Turn</strong></p></div>";
+		}
+	}
+	else if(endGame() == 1){
+		$stringTa .= "<div><p><strong style='color:red;'>BLACK WINS!!</strong></p></div>";
+	}
+	else if(endGame() == 2){
+		$stringTa .= "<div><p><strong style='color:red;'>RED WINS!!</strong></p></div>";
+	}
+	
+	$stringTa .= "<table border='1'>";
 	$c = 0;
 //echo "<table border='1'>"; 
 for($tr=0;$tr<$rows;$tr++){
