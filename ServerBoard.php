@@ -70,7 +70,7 @@ function getPlayers(&$a,&$b, &$c, &$text){
 	}	
 }
 
-function drawTable($rows,$cols,$arr){
+function drawTable($rows,$cols,$arr, $names){
 	$pRed = '';
 	$pBlack = '';
 	$xTurn = '';
@@ -88,10 +88,10 @@ function drawTable($rows,$cols,$arr){
 			$stringTa .= "<div><p><strong style='color:red;'>It's Red's Turn</strong></p></div>";
 		}
 	}
-	else if(endGame() == 1){
+	else if(endGame() == 1 && sizeof($names) == 2){
 		$stringTa .= "<div><p><strong style='color:red;'>BLACK WINS!!</strong></p></div>";
 	}
-	else if(endGame() == 2){
+	else if(endGame() == 2 && sizeof($names) == 2){
 		$stringTa .= "<div><p><strong style='color:red;'>RED WINS!!</strong></p></div>";
 	}
 	
@@ -169,6 +169,11 @@ function changeTurn(&$p){
 	}
 	//echo $p;	
 }
+
+function endAll($r){
+	echo sizeof($r);
+}
+
 function addPlayers($name,&$arr){
     if(sizeof($arr) < 2){
         array_push($arr,$name);
@@ -217,12 +222,16 @@ if($_POST["addPlayer"] == '66'){
 
 if($_POST["addPlayer"]=='100'){
  movePiece($arr,intval($_POST["nextX"]),intval($_POST["nextY"]),intval($_POST["startX"]),intval($_POST["startY"]),intval($_POST["flag"]));
-    drawTable(8,8,$arr);
+    drawTable(8,8,$arr, $arrPl);
     changeTurn($player);
 }
 if($_POST["addPlayer"] == '0' && $_SESSION["check"] == 1){
-    drawTable(8,8,$arr);
+    drawTable(8,8,$arr, $arrPl);
     //changeTurn($player);
+}
+
+if($_POST["addPlayer"] == '13'){
+	endAll($arrPl);
 }
 $filename = 'games.txt';
 $g = new Game();

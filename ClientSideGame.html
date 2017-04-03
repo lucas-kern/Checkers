@@ -51,6 +51,9 @@
 				});
 	   
 	   		});
+	   
+	   		
+	   
             function getPlayer(){
                 $.ajax({
                     method: "post",
@@ -67,6 +70,26 @@
                     }
                 });
             }
+	   
+	   function quitAll() {
+				$.ajax({
+					method: "post",
+					type: "post",
+					url: 'ServerBoard.php',
+					data: {
+						addPlayer: 13,
+						username: $("#user").val()
+					},
+					success: function(data)
+					{
+						console.log(data);
+						if(data == 0){
+							window.location.replace("Menu.html");
+						}
+					}
+				});
+	   
+	   		};
        function getTurn(){
             $.ajax({
                 method: "post",
@@ -107,6 +130,7 @@
        }
        setInterval(getPlayer,1000);
        setInterval(getTurn,1000);
+	   setInterval(quitAll,1000);
    }
         function setTable(){
                 $('#board td').click(function() {   
