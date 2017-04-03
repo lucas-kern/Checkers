@@ -19,7 +19,6 @@ function endGame(){
 	$sa;
 	$boarda;
 	getGame($pa,$sa,$boarda);
-	
 	$bCount = 0;
 	$rCount = 0;
 	for($x = 0; $x < 8; ++$x){
