@@ -4,7 +4,7 @@
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"> </script>
 </head>
 <body>
-    <h1>
+    <h1 id="head">
         Welcome to checkers please provide a username!
     </h1>
     
@@ -25,6 +25,7 @@
                 method: "post",
                 type: "post",
                 url: 'ServerBoard.php',
+				dataType:"json",
                 data: {
                     addPlayer: 1,
                     user: $("#user").val()
@@ -32,9 +33,19 @@
                 success: function(data)
                 {
                     console.log(data);
-                    window.location.replace('ClientSideGame.html');
+					//nameList = JSON.parse(data);
+					//console.log(typeof(nameList));
+					if(data.length == 2 && data[0] != document.getElementById("user").value && data[1] != document.getElementById("user").value){
+						document.getElementById("head").innerHTML = "This Game is full.. Wait until the next game! ";
+						//window.location.replace('Menu.html');
+					}
+					else{
+						window.location.replace('ClientSideGame.html');
+					}
                 }
+			
             });
+
         });
     });
         

@@ -6,12 +6,13 @@ class Game {
     public $names;
 } 
 
-if(!isset($_SESSION["check"])){
+if(!isset($_SESSION["check"]) && $_POST["addPlayer"] != 1){
     $_SESSION["check"] = 0;
 }
 $arr = array_fill(0, 8, array_fill(0,8,0));
 $player = 1;
 $arrPl = array();
+
 
 function endGame(){
 	$pa;
@@ -23,10 +24,10 @@ function endGame(){
 	$rCount = 0;
 	for($x = 0; $x < 8; ++$x){
 		for($y = 0; $y < 8; ++$y){
-			if($boarda[$x][$y] == 1){
+			if($boarda[$x][$y] == 1 || $boarda[$x][$y] == 3 ){
 				$bCount += 1;
 			}
-			else if($boarda[$x][$y] == 2){
+			else if($boarda[$x][$y] == 2 || $boarda[$x][$y] == 4){
 				$rCount += 1;
 			}
 		}
@@ -39,6 +40,7 @@ function endGame(){
 	else if($rCount == 0){
 		return 1;
 	}
+    return 0;
 	
 }
 
@@ -89,7 +91,7 @@ function drawTable($rows,$cols,$arr, $names){
 		}
 	}
 	else if(endGame() == 1 && sizeof($names) == 2){
-		$stringTa .= "<div><p><strong style='color:red;'>BLACK WINS!!</strong></p></div>";
+		$stringTa .= "<div><p><strong style='color:black;'>BLACK WINS!!</strong></p></div>";
 	}
 	else if(endGame() == 2 && sizeof($names) == 2){
 		$stringTa .= "<div><p><strong style='color:red;'>RED WINS!!</strong></p></div>";
@@ -116,15 +118,27 @@ for($tr=0;$tr<$rows;$tr++){
 			}
 			
 			$im = "";
+            $king = 0;
+            $piece = $arr[$tr][$td];
 			if($arr[$tr][$td] == 1){
 				$im = "<img src='BlackPiece.png' alt='Black' />";
 			}
 			else if($arr[$tr][$td] == 2){
 				$im = "<img src='RedPiece.png' alt='Red' />";
 			}
+            else if($arr[$tr][$td] == 3){
+				$im = "<img src='BlackKing.png' alt='Black' />";
+                $king = 1;
+                $piece = 1;
+			}
+            else if($arr[$tr][$td] == 4){
+				$im = "<img src='RedKing.png' alt='Red' />";
+                $king = 1;
+                $piece = 2;
+			}
 			
             //echo "<td width= '50' height= '50' bgcolor='".$col."' align='center' name = '".$tr."' id= '".$td."'>".$im."</td>"; 
-            $stringTa .="<td width= '50' height= '50' bgcolor='".$col."' align='center' data-piece ='".$arr[$tr][$td]."' data-x = '".$tr."' name ='".$c."' id= '".$td."'>".$im."</td>";
+            $stringTa .="<td width= '50' height= '50' bgcolor='".$col."' align='center' data-king = '".$king."' data-piece ='".$piece."' data-x = '".$tr."' name ='".$c."' id= '".$td."'>".$im."</td>";
 			
 			++$c;
         } 
@@ -171,6 +185,12 @@ function changeTurn(&$p){
 }
 
 function endAll($r){
+	
+	//$_SESSION["check"] = 0;
+	if(sizeof($r) == 0){
+//		$_SESSION["check"] = 0;
+		session_destroy();
+	}
 	echo sizeof($r);
 }
 
@@ -182,9 +202,9 @@ function addPlayers($name,&$arr){
 }
 function numPlayer($arr){
     if(!isset($_SESSION["number"])){
-        $_SESSION["number"] = "".sizeof($arr);
+        $_SESSION["number"] = sizeof($arr);
     }
-    echo $_SESSION["number"];
+	echo $_SESSION["number"];
 }
 function movePiece(&$arr,$nextx,$nexty,$startx,$starty,$flag){
     if($flag ==0 && $arr[$startx][$starty] != 0){
@@ -196,6 +216,12 @@ function movePiece(&$arr,$nextx,$nexty,$startx,$starty,$flag){
         $arr[$startx][$starty] = 0;
         $arr[intval($_POST["delX"])][intval($_POST["delY"])] = 0;
     }
+    if($arr[$nextx][$nexty] == 1 && $nextx == 7){
+            $arr[$nextx][$nexty] = 3;
+    }
+    else if($arr[$nextx][$nexty] == 2 && $nextx == 0){
+            $arr[$nextx][$nexty] = 4;
+    }
 }
     getGame($player,$arrPl,$arr);
 if($_POST["addPlayer"] == '0' && $_SESSION["check"] === 0){
@@ -206,6 +232,11 @@ if($_POST["addPlayer"] == '0' && $_SESSION["check"] === 0){
 }
 if($_POST["addPlayer"] == '1'){
     addPlayers($_POST["user"],$arrPl);
+	header('Content-type: application/json');
+	echo json_encode($arrPl);
+//	if(sizeof($arrPl) == 2 && $_POST["user"] != $arrPl[0] && $_POST["user"] = $arrPl[1]){
+//		$_SESSION["check"] = 0;
+//	}
 }
 if($_POST["addPlayer"] == '3'){
     numPlayer($arrPl);
@@ -221,9 +252,11 @@ if($_POST["addPlayer"] == '66'){
 }
 
 if($_POST["addPlayer"]=='100'){
+    if(intval($_POST["nextX"]) != intval($_POST["startX"]) && intval($_POST["nextY"]) != intval($_POST["startY"])){
  movePiece($arr,intval($_POST["nextX"]),intval($_POST["nextY"]),intval($_POST["startX"]),intval($_POST["startY"]),intval($_POST["flag"]));
     drawTable(8,8,$arr, $arrPl);
     changeTurn($player);
+    }
 }
 if($_POST["addPlayer"] == '0' && $_SESSION["check"] == 1){
     drawTable(8,8,$arr, $arrPl);
